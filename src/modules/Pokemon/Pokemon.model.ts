@@ -6,8 +6,8 @@ export const Pokemon = sequelize.define("Pokemon", {
   name: { type: DataTypes.STRING, allowNull: false },
   height: { type: DataTypes.SMALLINT, allowNull: false },
   weight: { type: DataTypes.SMALLINT, allowNull: false },
-  abilities: { type: DataTypes.ARRAY, allowNull: false },
+  abilities: { type: DataTypes.ARRAY(DataTypes.STRING), allowNull: false },
   image_url: { type: DataTypes.STRING, allowNull: false },
-  types: { type: DataTypes.ARRAY, allowNull: false },
+  types: { type: DataTypes.ARRAY(DataTypes.STRING), allowNull: false },
   species: { type: DataTypes.STRING, allowNull: false },
 });
