@@ -35,8 +35,19 @@ class PokemonController {
   }
 
   async findAll(req: Request, res: Response) {
-    const pokemons = await Pokemon.findAll();
-    res.json(pokemons);
+    try {
+      const pokemons = await Pokemon.findAll();
+
+      if (pokemons.length > 0) {
+        res.status(200).json(pokemons);
+      } else {
+        res.status(200).json({ message: "No Pokémon found" });
+      }
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: "Error when trying to find all Pokémon's" });
+    }
   }
 
   async findByPokedexId(req: Request, res: Response) {
