@@ -33,5 +33,11 @@ class PokemonController {
       res.status(500).json({ error: "Error when creating a Pokémon" });
     }
   }
+
+  async findAll(req: Request, res: Response) {
+    const pokemons = await Pokemon.findAll();
+    res.json(pokemons);
+  }
 }
+
 export default new PokemonController();
