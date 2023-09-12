@@ -77,6 +77,55 @@ class PokemonController {
       res.status(500).json({ error: "Error when trying to remove a Pokémon" });
     }
   }
+
+  async update(req: Request, res: Response) {
+    const {
+      pokedex_id,
+      name,
+      height,
+      weight,
+      abilities,
+      image_url,
+      types,
+      species,
+    } = req.body;
+
+    const { id } = req.params;
+
+    try {
+      const pokemon = await Pokemon.findOne({
+        where: { id },
+      });
+
+      if (pokemon) {
+        await Pokemon.update(
+          {
+            pokedex_id,
+            name,
+            height,
+            weight,
+            abilities,
+            image_url,
+            types,
+            species,
+          },
+          {
+            where: { id },
+          }
+        );
+
+        const updatedPokemon = await Pokemon.findOne({
+          where: { id },
+        });
+
+        res.status(201).json(updatedPokemon);
+      } else {
+        res.status(404).json({ message: "Pokémon not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Error when trying to update a Pokémon" });
+    }
+  }
 }
 
 export default new PokemonController();
