@@ -58,6 +58,25 @@ class PokemonController {
         .json({ error: "Error when trying to find a Pokémon by Pokedex ID" });
     }
   }
+
+  async remove(req: Request, res: Response) {
+    const { id } = req.params;
+
+    try {
+      const pokemon = await Pokemon.destroy({
+        where: { id },
+      });
+
+      if (pokemon) {
+        const pokemons = await Pokemon.findAll();
+        res.status(200).json(pokemons);
+      } else {
+        res.status(404).json({ message: "Pokémon not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Error when trying to remove a Pokémon" });
+    }
+  }
 }
 
 export default new PokemonController();
