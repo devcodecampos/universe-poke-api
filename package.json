@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/server.ts"
   },
-  "repository": "https://github.com/devcodecampos/typescript-setup.git",
+  "repository": "https://github.com/devcodecampos/universe-poke-api.git",
   "keywords": [],
   "author": "devcodecampos <devcodecampos@gmail.com>",
   "license": "MIT",
