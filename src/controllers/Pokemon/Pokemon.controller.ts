@@ -15,18 +15,26 @@ class PokemonController {
     } = req.body;
 
     try {
-      const pokemon = await Pokemon.create({
-        pokedex_id,
-        name,
-        height,
-        weight,
-        abilities,
-        image_url,
-        types,
-        species,
-      });
+      const pokemonExists = await Pokemon.findOne({ where: { name } });
 
-      res.status(201).json(pokemon);
+      if (pokemonExists) {
+        res
+          .status(200)
+          .json({ message: "Pokemon is already registered", pokemonExists });
+      } else {
+        const pokemon = await Pokemon.create({
+          pokedex_id,
+          name,
+          height,
+          weight,
+          abilities,
+          image_url,
+          types,
+          species,
+        });
+
+        res.status(201).json(pokemon);
+      }
     } catch (error) {
       res.status(500).json({ error: "Error when creating a Pokémon" });
     }
