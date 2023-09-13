@@ -3,8 +3,6 @@ import { Request, Response } from "express";
 
 class PokemonController {
   async store(req: Request, res: Response) {
-    await Pokemon.sync();
-
     const {
       pokedex_id,
       name,
