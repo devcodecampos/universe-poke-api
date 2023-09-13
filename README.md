@@ -4,10 +4,8 @@
   <a href="#techs">Techs</a>&nbsp;|&nbsp;
   <a href="#estrutura">Estrutura do Projeto</a>&nbsp;|&nbsp;
   <a href="#funcionalidades">Funcionalidades</a>&nbsp;|&nbsp;
-  <a href="#dependencias">Dependencias</a>&nbsp;|&nbsp;
   <a href="#execucao">Execução</a>&nbsp;|&nbsp;
-  <a href="#testes">Testes</a>&nbsp;|&nbsp;
-  <a href="#prompts">Prompts</a>&nbsp;|&nbsp;
+  <a href="#dependencias">Dependencias</a>&nbsp;|&nbsp;
   <a href="#license">Licença</a>
 </p>
 <br>
@@ -61,15 +59,15 @@ yarn install
 yarn dev
 ```
 
-  Criar arquivo .env na raiz do projeto com o seguinte conteúdo:
+Criar arquivo .env na raiz do projeto com as seguintes variáveis de ambiente, lembrando que são apenas exemplos, configure de acordo com seu ambiente
 ```ts
-DB_DRIVER= O driver do banco de dados que você está usando
-DB_HOST= O endereço do host do seu banco de dados
-DB_PORT= A porta na qual o seu banco está configurado 
-DB_NAME= O nome do banco de dados que você deseja usar ou ao qual deseja se conectar
-DB_USER= O nome de usuário usado para autenticar no banco de dados
-DB_PASSWORD= A senha associada ao usuário do banco de dados
-SERVER_PORT= A porta na qual o servidor do seu aplicativo será executado
+DB_DRIVER=postgres "O driver do banco de dados que você está usando"
+DB_HOST=localhost "O endereço do host do seu banco"
+DB_PORT=5432 "A porta na qual o seu banco está configurado"
+DB_NAME=poke "O nome do banco ao qual deseja se conectar"
+DB_USER=admin "O nome de usuário usado para autenticar no banco"
+DB_PASSWORD=123456 "A senha associada ao usuário do banco"
+SERVER_PORT=3333 "A porta na qual o servidor do seu aplicativo será executado"
 ```
 
 ## 📚 Dependencias <a name="dependencias"></a>
@@ -92,7 +90,15 @@ yarn add express
 ```
 [Sequelize](https://sequelize.org/)
 ```
-yarn add sequelize pg pg-hstore
+yarn add sequelize
+```
+[Postgres](https://www.postgresql.org/)
+```
+yarn add pg pg-hstore
+```
+[Dotenv](https://www.npmjs.com/package/dotenv)
+```
+yarn add -D dotenv
 ```
 
 ## 📝 Licença <a name="license"></a>
