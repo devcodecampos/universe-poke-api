@@ -1,7 +1,8 @@
+import "reflect-metadata";
 import "dotenv/config";
 import express from "express";
 import routes from "./routes";
-import { sequelize } from "./database";
+import { AppDataSource } from "./database/data-source";
 
 const app = express();
 const port = process.env.SERVER_PORT;
@@ -11,8 +12,8 @@ app.use(routes);
 
 const initApp = async () => {
   try {
-    await sequelize.authenticate();
-    await sequelize.sync({ force: true });
+    await AppDataSource.initialize();
+    console.log("Data Source has been initialized!")
 
     app.listen(port, () => {
       console.log(`listening on port ${port}`);

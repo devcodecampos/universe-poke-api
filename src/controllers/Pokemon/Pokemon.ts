@@ -1,28 +1,31 @@
-import { Pokemon } from "../../modules/Pokemon/Pokemon.model";
+import { AppDataSource } from "../../database/data-source";
+import { Pokemon } from "../../entities/Pokemon/Pokemon";
 import { Request, Response } from "express";
 
 class PokemonController {
   async store(req: Request, res: Response) {
-    const {
-      pokedex_id,
-      name,
-      height,
-      weight,
-      abilities,
-      image_url,
-      types,
-      species,
-    } = req.body;
-
     try {
-      const pokemonExists = await Pokemon.findOne({ where: { name } });
+      const {
+        pokedex_id,
+        name,
+        height,
+        weight,
+        abilities,
+        image_url,
+        types,
+        species,
+      } = req.body;
+
+      const pokemonExists = await AppDataSource.getRepository(
+        Pokemon
+      ).findOneBy({ name: name });
 
       if (pokemonExists) {
         res
           .status(200)
           .json({ message: "Pokemon is already registered", pokemonExists });
       } else {
-        const pokemon = await Pokemon.create({
+        const pokemon = await AppDataSource.getRepository(Pokemon).create({
           pokedex_id,
           name,
           height,
@@ -33,16 +36,18 @@ class PokemonController {
           species,
         });
 
+        await AppDataSource.getRepository(Pokemon).save(pokemon);
         res.status(201).json(pokemon);
       }
     } catch (error) {
       res.status(500).json({ error: "Error when creating a Pokémon" });
+      console.log(error)
     }
   }
 
   async findAll(req: Request, res: Response) {
     try {
-      const pokemons = await Pokemon.findAll();
+      const pokemons = await AppDataSource.getRepository(Pokemon).find();
 
       if (pokemons.length > 0) {
         res.status(200).json(pokemons);
@@ -57,11 +62,10 @@ class PokemonController {
   }
 
   async findByPokedexId(req: Request, res: Response) {
-    const { pokedex_id } = req.params;
-
     try {
-      const pokemon = await Pokemon.findOne({
-        where: { pokedex_id },
+      const { pokedex_id } = req.params;
+      const pokemon = await AppDataSource.getRepository(Pokemon).findOneBy({
+        pokedex_id: parseInt(pokedex_id),
       });
 
       if (pokemon) {
@@ -77,15 +81,12 @@ class PokemonController {
   }
 
   async remove(req: Request, res: Response) {
-    const { id } = req.params;
-
     try {
-      const pokemon = await Pokemon.destroy({
-        where: { id },
-      });
+      const { id } = req.params;
+      const pokemon = await AppDataSource.getRepository(Pokemon).delete(id);
 
       if (pokemon) {
-        const pokemons = await Pokemon.findAll();
+        const pokemons = await AppDataSource.getRepository(Pokemon).find();
         res.status(200).json(pokemons);
       } else {
         res.status(404).json({ message: "Pokémon not found" });
@@ -96,44 +97,17 @@ class PokemonController {
   }
 
   async update(req: Request, res: Response) {
-    const {
-      pokedex_id,
-      name,
-      height,
-      weight,
-      abilities,
-      image_url,
-      types,
-      species,
-    } = req.body;
-
-    const { id } = req.params;
-
     try {
-      const pokemon = await Pokemon.findOne({
-        where: { id },
+      const { id } = req.params;
+      const pokemon = await AppDataSource.getRepository(Pokemon).findOneBy({
+        id: parseInt(id),
       });
 
       if (pokemon) {
-        await Pokemon.update(
-          {
-            pokedex_id,
-            name,
-            height,
-            weight,
-            abilities,
-            image_url,
-            types,
-            species,
-          },
-          {
-            where: { id },
-          }
+        await AppDataSource.getRepository(Pokemon).merge(pokemon, req.body);
+        const updatedPokemon = await AppDataSource.getRepository(Pokemon).save(
+          pokemon
         );
-
-        const updatedPokemon = await Pokemon.findOne({
-          where: { id },
-        });
 
         res.status(201).json(updatedPokemon);
       } else {
