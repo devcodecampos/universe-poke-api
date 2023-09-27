@@ -15,7 +15,7 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 - [TypeScript](https://www.typescriptlang.org/)
 - [Node.js](https://nodejs.org/pt-br)
 - [Express](https://expressjs.com/)
-- [Sequelize](https://sequelize.org/)
+- [TypeORM](https://typeorm.io/)
 - [Postgres](https://www.postgresql.org/)
 - [Git](https://git-scm.com/)
 
@@ -24,12 +24,12 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 src      
 └───controllers
       └───Pokemon
-            └───Pokemon.controller.ts
+            └───Pokemon.ts
 └───database
-      └───index.ts
-└───modules
+      └───data-source.ts
+└───entities
       └───Pokemon      
-            └───Pokemon.model.ts         
+            └───Pokemon.ts         
 └───routes.ts
 └───server.ts
 .env
@@ -61,12 +61,12 @@ yarn dev
 
 Criar arquivo .env na raiz do projeto com as seguintes variáveis de ambiente, lembrando que são apenas exemplos, configure de acordo com seu ambiente
 ```ts
-DB_DRIVER=postgres "O driver do banco de dados que você está usando"
-DB_HOST=localhost "O endereço do host do seu banco"
-DB_PORT=5432 "A porta na qual o seu banco está configurado"
-DB_NAME=poke "O nome do banco ao qual deseja se conectar"
-DB_USER=admin "O nome de usuário usado para autenticar no banco"
-DB_PASSWORD=123456 "A senha associada ao usuário do banco"
+TYPEORM_CONNECTION = postgres "O driver do banco de dados que você está usando"
+TYPEORM_HOST = localhost "O endereço do host do seu banco"
+TYPEORM_USERNAME = postgres "O nome de usuário usado para autenticar no banco"
+TYPEORM_PASSWORD = 123456 "A senha associada ao usuário do banco"
+TYPEORM_DATABASE = universe-poke "O nome do banco ao qual deseja se conectar"
+TYPEORM_PORT = 5432 "A porta na qual o seu banco está configurado"
 SERVER_PORT=3333 "A porta na qual o servidor do seu aplicativo será executado"
 ```
 
@@ -88,9 +88,10 @@ yarn run eslint --init
 ```
 yarn add express
 ```
-[Sequelize](https://sequelize.org/)
+[TypeORM](https://typeorm.io/)
 ```
-yarn add sequelize
+yarn add typeorm 
+yarn add reflect-metadata
 ```
 [Postgres](https://www.postgresql.org/)
 ```
